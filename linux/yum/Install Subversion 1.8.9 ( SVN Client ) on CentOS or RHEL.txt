@@ -1,0 +1,47 @@
+http://tecadmin.net/install-subversion-1-8-on-centos-rhel/
+
+Thanks to Wandisco, which is maintaining the rpm packages for latest Subversion version. This article will help you to Install Subversion-1.8.9 ( SVN Client ) on CentOS/RHEL 7/6/5 Systems. If you want to configure Subversion server visit this article.
+Step 1: Setup Yum Repository
+
+Firstly we need to configure yum repository in our system. Create a new repo file/etc/yum.repos.d/wandisco-svn.repo and add following content as per your operating system version.
+For CentOS/RHEL 7 Users:
+
+[WandiscoSVN]
+name=Wandisco SVN Repo
+baseurl=http://opensource.wandisco.com/centos/7/svn-1.8/RPMS/$basearch/
+enabled=1
+gpgcheck=0
+For CentOS/RHEL 6 Users:
+
+[WandiscoSVN]
+name=Wandisco SVN Repo
+baseurl=http://opensource.wandisco.com/centos/6/svn-1.8/RPMS/$basearch/
+enabled=1
+gpgcheck=0
+For CentOS/RHEL 5 Users:
+
+[WandiscoSVN]
+name=Wandisco SVN Repo
+baseurl=http://opensource.wandisco.com/centos/5/svn-1.8/RPMS/$basearch/
+enabled=1
+gpgcheck=0
+Step 2: Install Subversion Package
+
+After adding above repository, install Subversion package using yum command line package manager utility.
+# yum clean all
+# yum install subversion
+
+In case you face any issues with existing installed subversion, remove that and try again with above commands.
+Step 3: Verify Subversion Version
+
+At this stage you have successfully install Subversion client on your system. Lets use following command to verify version of svn client.
+# svn --version
+
+
+svn, version 1.8.13 (r1667537)
+   compiled Apr  2 2015, 15:54:41 on i686-pc-linux-gnu
+
+Copyright (C) 2014 The Apache Software Foundation.
+This software consists of contributions made by many people;
+see the NOTICE file for more information.
+Subversion is open source software, see http://subversion.apache.org/
