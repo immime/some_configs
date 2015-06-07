@@ -1,0 +1,71 @@
+一、安装
+	1、创建 Yum Repository
+		新建repo file /etc/yum.repos.d/wandisco-svn.repo
+		[root@localhost ~]# vim /etc/yum.repos.d/wandisco-svn.repo
+		内容为：
+		[WandiscoSVN]
+		name=Wandisco SVN Repo
+		baseurl=http://opensource.wandisco.com/centos/6/svn-1.8/RPMS/$basearch/
+		enabled=1
+		gpgcheck=0
+	2、安装Subversion
+		[root@localhost ~]# yum clean all
+		[root@localhost ~]# yum install subversion
+	3、查看svn版本
+		[root@localhost ~]# svn --version
+			svn, version 1.8.13 (r1667537)
+			compiled Apr  2 2015, 15:55:22 on x86_64-unknown-linux-gnu
+
+二、配置
+	1、创建根目录
+		[root@localhost ~]# mkdir -p /home/svn
+		[root@localhost ~]# cd /home/svn
+		[root@localhost svn]# mkdir test
+		[root@localhost svn]# cd test
+		[root@localhost test]# svnadmin create /home/svn/test
+		
+	2、设置用户权限	
+		[root@localhost test]# cd conf
+		[root@localhost conf]# vim 
+		 ……
+		
+	3、设置自启动
+		[root@localhost ~]# vi /etc/rc.d/init.d/svn
+---------------------------------------------------------------	
+#!/bin/bash
+# chkconfig: - 85 15
+# description: svn server
+SVN_HOME=/home/svn
+if [ ! -f "/usr/bin/svnserve" ]
+then
+echo "svnserver startup: cannot start"
+exit
+fi
+case "$1" in
+start)
+echo "Starting svnserve…"
+/usr/bin/svnserve -d --listen-port 3690 -r $SVN_HOME
+echo "Finished!"
+;;
+stop)
+echo "Stoping svnserve…"
+killall svnserve
+echo "Finished!"
+;;
+restart)
+$0 stop
+$0 start
+
+;;
+*)
+echo "Usage: svn { start | stop | restart } "
+exit 1
+esac
+---------------------------------------------------------------	
+	[root@localhost ~]chmod 755 /etc/init.d/svn	
+	[root@localhost ~]chkconfig --add svn
+	[root@localhost ~]chkconfig svn on
+	[root@localhost ~]chkconfig --list|grep svn
+
+	
+		
