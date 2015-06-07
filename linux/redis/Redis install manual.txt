@@ -1,0 +1,31 @@
+说明：
+	gcc-c++编译必须的环境，最先安装
+	jemalloc是redis默认的内存分配器(更好的内存管理)，redis编译前要预先安装 
+
+1.上传jar到目标服务器server
+	redis-3.0.2.tar.gz
+2.安装编译环境
+	[root@localhost ~]yum install gcc-c++
+3.安装jemalloc
+	[root@localhost ~]yum install jemalloc
+4.安装Redis
+	进入目标目录：
+		[root@localhost ~]cd /usr/local/
+	解压：
+		[root@localhost local]tar xzvf redis-3.0.2.tar.gz
+	进入redis目录：
+		[root@localhost local]cd /redis-3.0.2
+	编译：
+		编译依赖：
+		[root@localhost redis-3.0.2]cd deps/ && make hiredis lua jemalloc linenoise	
+		[root@localhost redis-3.0.2]make 
+5.测试
+	启动服务端：
+		[root@localhost redis-3.0.2]src/redis-server	
+	新开SSH连接启动客户端：
+		[root@localhost redis-3.0.2]src/redis-cli
+		redis> set foo bar
+		OK
+		redis> get foo
+		"bar"
+	
